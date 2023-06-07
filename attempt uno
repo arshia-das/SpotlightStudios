@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dress Up Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            display: flex;
+        }
+        
+        .character {
+            position: relative;
+            width: 200px;
+            height: 400px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            margin-right: 20px;
+        }
+        
+        .clothing {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+        }
+        
+        #shirt { background-color: pink; }
+        #pants { background-color: lightblue; }
+        #shoes { background-color: yellow; }
+        
+        #shirt-closet { background-color: darkgray; }
+        #pants-closet { background-color: gray; }
+        #shoes-closet { background-color: lightgray; }
+    </style>
+</head>
+<body>
+    <h1>Dress Up Game</h1>
+    
+    <div class="container">
+        <div class="character" id="character">
+            <div class="clothing" id="shirt" draggable="true"></div>
+            <div class="clothing" id="pants" draggable="true"></div>
+            <div class="clothing" id="shoes" draggable="true"></div>
+        </div>
+        
+        <div id="closet">
+            <h2>Closet</h2>
+            <div class="clothing" id="shirt-closet" draggable="true"></div>
+            <div class="clothing" id="pants-closet" draggable="true"></div>
+            <div class="clothing" id="shoes-closet" draggable="true"></div>
+        </div>
+    </div>
+    
+    <script>
+        const character = document.getElementById('character');
+        const closet = document.getElementById('closet');
+        
+        const clothingItems = document.querySelectorAll('.clothing');
+        clothingItems.forEach(item => {
+            item.addEventListener('dragstart', dragStart);
+        });
+        
+        character.addEventListener('dragover', dragOver);
+        character.addEventListener('drop', drop);
+        
+        function dragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.id);
+        }
+        
+        function dragOver(event) {
+            event.preventDefault();
+        }
+        
+        function drop(event) {
+            event.preventDefault();
+            const clothingId = event.dataTransfer.getData('text/plain');
+            const clothing = document.getElementById(clothingId);
+            character.appendChild(clothing);
+        }
+    </script>
+</body>
+</html>
